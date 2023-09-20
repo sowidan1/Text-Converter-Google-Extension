@@ -39,6 +39,7 @@ const customMapping = {
   'لإ': 't',
   'لأ': 'g',
   'لا': 'gh',
+  'ذ': '`'
 };
 
 function convertText(str, fromArr, toArr, customMapping) {
