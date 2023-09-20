@@ -2,74 +2,113 @@ const arrE = [' ', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '
 const arrA = [' ', 'ض', 'ص', 'ث', 'ق', 'ف', 'غ', 'ع', 'ه', 'خ', 'ح', 'ج', 'د', 'ش', 'س', 'ي', 'ب', 'ل', 'ا', 'ت', 'ن', 'م', 'ك', 'ط', 'ئ', 'ء', 'ؤ', 'ر', 'لا', 'ى', 'ة', 'و', 'ز', 'ظ'];
 
 const customMapping = {
-                          'ض': 'q',
-                          'ص': 'w',
-                          'ث': 'e',
-                          'ق': 'r',
-                          'ف': 't',
-                          'غ': 'y',
-                          'ع': 'u',
-                          'ه': 'i',
-                          'خ': 'o',
-                          'ح': 'p',
-                          'ج': '[',
-                          'د': ']',
-                          'ش': 'a',
-                          'س': 's',
-                          'ي': 'd',
-                          'ب': 'f',
-                          'ل': 'g',
-                          'ا': 'h',
-                          'ت': 'j',
-                          'ن': 'k',
-                          'م': 'l',
-                          'ك': ';',
-                          'ط': "'",
-                          'ئ': 'z',
-                          'ء': 'x',
-                          'ؤ': 'c',
-                          'ر': 'v',
-                          'لا': 'b',
-                          'ى': 'n',
-                          'm': 'ة',
-                          'ة': 'm',
-                          'و': ',',
-                          'ز': '.',
-                          'ظ': '/',
+  'ض': 'q',
+  'ص': 'w',
+  'ث': 'e',
+  'ق': 'r',
+  'ف': 't',
+  'غ': 'y',
+  'ع': 'u',
+  'ه': 'i',
+  'خ': 'o',
+  'ح': 'p',
+  'ج': '[',
+  'د': ']',
+  'ش': 'a',
+  'س': 's',
+  'ي': 'd',
+  'ب': 'f',
+  'ل': 'g',
+  'ا': 'h',
+  'ت': 'j',
+  'ن': 'k',
+  'م': 'l',
+  'ك': ';',
+  'ط': "'",
+  'ئ': 'z',
+  'ء': 'x',
+  'ؤ': 'c',
+  'ر': 'v',
+  'لا': 'b',
+  'ى': 'n',
+  'm': 'ة',
+  'ة': 'm',
+  'و': ',',
+  'ز': '.',
+  'ظ': '/',
+  'لإ': 't',
+  'لأ': 'g',
+  'لا': 'gh',
 };
 
 function convertText(str, fromArr, toArr, customMapping) {
   const strlen = str.length;
   let result = '';
   let prevChar = ''; // To keep track of the previous character.
+  let lamhmaza = '';
+
+
+
+
 
   for (let i = 0; i < strlen; i++) {
     const char = str.charAt(i);
-
+   let NextChar = str.charAt(i + 1 )
     // Check for context-based mappings
-    if (
-      (
-        (char === 'ا' && [' ', 'ا', 'أ'].includes(prevChar)) ||
-        (char === 'أ' && [' ', 'ا', 'أ'].includes(prevChar))
-      ) && customMapping['لإ']
-    ) {
-      result += customMapping['لإ'];
-    } else if (customMapping[char]) {
-      result += customMapping[char];
-    } else {
+    if (['ل' , 'أ' , 'إ' ].includes(char)) {
+
+      if (char === 'ل') {
+        lamhmaza = char
+      }
+
+      if (char === 'أ') {
+        if (lamhmaza === 'ل') {
+          result += customMapping['لأ']
+
+        lamhmaza = ''
+        }
+        else{
+
+        result += customMapping[char];
+        }
+      }
+
+      if (char === 'إ') {
+
+        if (lamhmaza === 'ل') {
+          result += customMapping['لإ']
+        lamhmaza = ''
+        }
+        else{
+
+        result += customMapping[char];
+        }
+      }
+      if(NextChar !==   'أ'  && NextChar !=='إ' && char === 'ل' ) {
+         
+        result += customMapping[char];
+      }
+    }
+
+
+
+      else  if (customMapping[char]){
+        result += customMapping[char];
+      }
+    else {
       let found = false;
-      for (let j = 0; j < fromArr.length; j++) {
-        if (char === fromArr[j] || char.toLowerCase() === fromArr[j].toLowerCase()) {
-          result += toArr[j];
+      for (let i = 0; i < fromArr.length; i++) {
+        if (char.toLowerCase() === fromArr[i]) {
+          result += toArr[i];
           found = true;
           break;
         }
       }
 
       if (!found) {
-        for (let j = 0; j < toArr.length; j++) {
-          if (char === toArr[j] || char.toLowerCase() === toArr[j].toLowerCase()) {
-            result += fromArr[j];
+        for (let i = 0; i < toArr.length; i++) {
+          if (char.toLowerCase() === toArr[i]) {
+            result += fromArr[i];
             break;
           }
         }
