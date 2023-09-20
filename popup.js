@@ -85,7 +85,7 @@ function convertText(str, fromArr, toArr, customMapping) {
         }
       }
       if(NextChar !==   'أ'  && NextChar !=='إ' && char === 'ل' ) {
-           console.log(NextChar)
+         
         result += customMapping[char];
       }
     }
